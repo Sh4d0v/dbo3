@@ -798,7 +798,7 @@ public static partial class Strings
         public readonly LocalizedString Support = @"For help, support, and updates, visit: https://www.ascensiongamedev.com";
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public readonly LocalizedString Tagline = @"                          Free 2D ORPG engine";
+        public readonly LocalizedString Tagline = @"                          Free Dragon Ball MMO";
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public readonly LocalizedString Version = @"Version {00}";
