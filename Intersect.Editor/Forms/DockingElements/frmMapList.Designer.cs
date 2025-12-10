@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 using DarkUI.Controls;
 using Intersect.Editor.Forms.Controls;
 
@@ -32,202 +32,193 @@ namespace Intersect.Editor.Forms.DockingElements
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMapList));
-            this.toolStrip1 = new DarkUI.Controls.DarkToolStrip();
-            this.btnAlphabetical = new System.Windows.Forms.ToolStripButton();
-            this.toolSelectMap = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnNewMap = new System.Windows.Forms.ToolStripButton();
-            this.btnNewFolder = new System.Windows.Forms.ToolStripButton();
-            this.btnRename = new System.Windows.Forms.ToolStripButton();
-            this.btnDelete = new System.Windows.Forms.ToolStripButton();
-            this.newMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.newFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyIdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mapTreeList = new Intersect.Editor.Forms.Controls.MapTreeList();
-            this.toolStrip1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMapList));
+            toolStrip1 = new DarkToolStrip();
+            btnAlphabetical = new ToolStripButton();
+            toolSelectMap = new ToolStripButton();
+            toolStripSeparator1 = new ToolStripSeparator();
+            btnNewMap = new ToolStripButton();
+            btnNewFolder = new ToolStripButton();
+            btnRename = new ToolStripButton();
+            btnDelete = new ToolStripButton();
+            newMapToolStripMenuItem = new ToolStripMenuItem();
+            renameToolStripMenuItem = new ToolStripMenuItem();
+            deleteToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            newFolderToolStripMenuItem = new ToolStripMenuItem();
+            copyIdToolStripMenuItem = new ToolStripMenuItem();
+            mapTreeList = new MapTreeList();
+            toolStrip1.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // toolStrip1
             // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.toolStrip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnAlphabetical,
-            this.toolSelectMap,
-            this.toolStripSeparator1,
-            this.btnNewMap,
-            this.btnNewFolder,
-            this.btnRename,
-            this.btnDelete});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(189, 25);
-            this.toolStrip1.TabIndex = 4;
-            this.toolStrip1.Text = "toolStrip1";
+            toolStrip1.AutoSize = false;
+            toolStrip1.BackColor = System.Drawing.Color.FromArgb(45, 45, 48);
+            toolStrip1.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.Items.AddRange(new ToolStripItem[] { btnAlphabetical, toolSelectMap, toolStripSeparator1, btnNewMap, btnNewFolder, btnRename, btnDelete });
+            toolStrip1.Location = new System.Drawing.Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Padding = new Padding(0);
+            toolStrip1.Size = new Size(189, 25);
+            toolStrip1.TabIndex = 4;
+            toolStrip1.Text = "toolStrip1";
             // 
             // btnAlphabetical
             // 
-            this.btnAlphabetical.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAlphabetical.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.btnAlphabetical.Image = ((System.Drawing.Image)(resources.GetObject("btnAlphabetical.Image")));
-            this.btnAlphabetical.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAlphabetical.Name = "btnAlphabetical";
-            this.btnAlphabetical.Size = new System.Drawing.Size(23, 22);
-            this.btnAlphabetical.Text = "Order Chronologically";
-            this.btnAlphabetical.Click += new System.EventHandler(this.btnAlphabetical_Click);
+            btnAlphabetical.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnAlphabetical.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            btnAlphabetical.Image = (Image)resources.GetObject("btnAlphabetical.Image");
+            btnAlphabetical.ImageTransparentColor = System.Drawing.Color.Magenta;
+            btnAlphabetical.Name = "btnAlphabetical";
+            btnAlphabetical.Size = new Size(23, 22);
+            btnAlphabetical.Text = "Order Chronologically";
+            btnAlphabetical.Click += btnAlphabetical_Click;
             // 
             // toolSelectMap
             // 
-            this.toolSelectMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolSelectMap.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.toolSelectMap.Image = ((System.Drawing.Image)(resources.GetObject("toolSelectMap.Image")));
-            this.toolSelectMap.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolSelectMap.Name = "toolSelectMap";
-            this.toolSelectMap.Size = new System.Drawing.Size(23, 22);
-            this.toolSelectMap.Text = "Select Current Map";
-            this.toolSelectMap.Click += new System.EventHandler(this.toolSelectMap_Click);
+            toolSelectMap.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolSelectMap.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            toolSelectMap.Image = (Image)resources.GetObject("toolSelectMap.Image");
+            toolSelectMap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolSelectMap.Name = "toolSelectMap";
+            toolSelectMap.Size = new Size(23, 22);
+            toolSelectMap.Text = "Select Current Map";
+            toolSelectMap.Click += toolSelectMap_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.toolStripSeparator1.Margin = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator1.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            toolStripSeparator1.Margin = new Padding(0, 0, 2, 0);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 25);
             // 
             // btnNewMap
             // 
-            this.btnNewMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNewMap.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.btnNewMap.Image = ((System.Drawing.Image)(resources.GetObject("btnNewMap.Image")));
-            this.btnNewMap.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNewMap.Name = "btnNewMap";
-            this.btnNewMap.Size = new System.Drawing.Size(23, 22);
-            this.btnNewMap.Text = "New Map";
-            this.btnNewMap.Click += new System.EventHandler(this.btnNewMap_Click);
+            btnNewMap.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnNewMap.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            btnNewMap.Image = (Image)resources.GetObject("btnNewMap.Image");
+            btnNewMap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            btnNewMap.Name = "btnNewMap";
+            btnNewMap.Size = new Size(23, 22);
+            btnNewMap.Text = "New Map";
+            btnNewMap.Click += btnNewMap_Click;
             // 
             // btnNewFolder
             // 
-            this.btnNewFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNewFolder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.btnNewFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnNewFolder.Image")));
-            this.btnNewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNewFolder.Name = "btnNewFolder";
-            this.btnNewFolder.Size = new System.Drawing.Size(23, 22);
-            this.btnNewFolder.Text = "New Folder";
-            this.btnNewFolder.Click += new System.EventHandler(this.btnNewFolder_Click);
+            btnNewFolder.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnNewFolder.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            btnNewFolder.Image = (Image)resources.GetObject("btnNewFolder.Image");
+            btnNewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
+            btnNewFolder.Name = "btnNewFolder";
+            btnNewFolder.Size = new Size(23, 22);
+            btnNewFolder.Text = "New Folder";
+            btnNewFolder.Click += btnNewFolder_Click;
             // 
             // btnRename
             // 
-            this.btnRename.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRename.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.btnRename.Image = ((System.Drawing.Image)(resources.GetObject("btnRename.Image")));
-            this.btnRename.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRename.Name = "btnRename";
-            this.btnRename.Size = new System.Drawing.Size(23, 22);
-            this.btnRename.Text = "Rename";
-            this.btnRename.Click += new System.EventHandler(this.btnRename_Click);
+            btnRename.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnRename.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            btnRename.Image = (Image)resources.GetObject("btnRename.Image");
+            btnRename.ImageTransparentColor = System.Drawing.Color.Magenta;
+            btnRename.Name = "btnRename";
+            btnRename.Size = new Size(23, 22);
+            btnRename.Text = "Rename";
+            btnRename.Click += btnRename_Click;
             // 
             // btnDelete
             // 
-            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
-            this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(23, 22);
-            this.btnDelete.Text = "Delete Map or Folder";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            btnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnDelete.ForeColor = System.Drawing.Color.FromArgb(220, 220, 220);
+            btnDelete.Image = (Image)resources.GetObject("btnDelete.Image");
+            btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(23, 22);
+            btnDelete.Text = "Delete Map or Folder";
+            btnDelete.Click += btnDelete_Click;
             // 
             // newMapToolStripMenuItem
             // 
-            this.newMapToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
-            this.newMapToolStripMenuItem.Name = "newMapToolStripMenuItem";
-            this.newMapToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.newMapToolStripMenuItem.Text = "New Map";
-            this.newMapToolStripMenuItem.Click += new System.EventHandler(this.btnNewMap_Click);
+            newMapToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
+            newMapToolStripMenuItem.Name = "newMapToolStripMenuItem";
+            newMapToolStripMenuItem.ShortcutKeys = Keys.F1;
+            newMapToolStripMenuItem.Size = new Size(180, 22);
+            newMapToolStripMenuItem.Text = "New Map";
+            newMapToolStripMenuItem.Click += btnNewMap_Click;
             // 
             // renameToolStripMenuItem
             // 
-            this.renameToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
-            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.renameToolStripMenuItem.Text = "Rename";
-            this.renameToolStripMenuItem.Click += new System.EventHandler(this.btnRename_Click);
+            renameToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
+            renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            renameToolStripMenuItem.ShortcutKeys = Keys.F2;
+            renameToolStripMenuItem.Size = new Size(180, 22);
+            renameToolStripMenuItem.Text = "Rename";
+            renameToolStripMenuItem.Click += btnRename_Click;
             // 
             // deleteToolStripMenuItem
             // 
-            this.deleteToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.btnDelete_Click);
+            deleteToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
+            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            deleteToolStripMenuItem.ShortcutKeys = Keys.F4;
+            deleteToolStripMenuItem.Size = new Size(180, 22);
+            deleteToolStripMenuItem.Text = "Delete";
+            deleteToolStripMenuItem.Click += btnDelete_Click;
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newMapToolStripMenuItem,
-            this.newFolderToolStripMenuItem,
-            this.copyIdToolStripMenuItem,
-            this.deleteToolStripMenuItem,
-            this.renameToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 114);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            contextMenuStrip1.BackColor = System.Drawing.Color.FromArgb(60, 63, 65);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { newMapToolStripMenuItem, newFolderToolStripMenuItem, copyIdToolStripMenuItem, deleteToolStripMenuItem, renameToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.RenderMode = ToolStripRenderMode.System;
+            contextMenuStrip1.Size = new Size(181, 136);
+            contextMenuStrip1.Opening += contextMenuStrip1_Opening;
             // 
             // newFolderToolStripMenuItem
             // 
-            this.newFolderToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
-            this.newFolderToolStripMenuItem.Name = "newFolderToolStripMenuItem";
-            this.newFolderToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.newFolderToolStripMenuItem.Text = "New Folder";
-            this.newFolderToolStripMenuItem.Click += new System.EventHandler(this.btnNewFolder_Click);
+            newFolderToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
+            newFolderToolStripMenuItem.Name = "newFolderToolStripMenuItem";
+            newFolderToolStripMenuItem.ShortcutKeys = Keys.F3;
+            newFolderToolStripMenuItem.Size = new Size(180, 22);
+            newFolderToolStripMenuItem.Text = "New Folder";
+            newFolderToolStripMenuItem.Click += btnNewFolder_Click;
             // 
             // copyIdToolStripMenuItem
             // 
-            this.copyIdToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
-            this.copyIdToolStripMenuItem.Name = "copyIdToolStripMenuItem";
-            this.copyIdToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.copyIdToolStripMenuItem.Text = "Copy Id";
-            this.copyIdToolStripMenuItem.Click += new System.EventHandler(this.copyIdToolStripMenuItem_Click);
+            copyIdToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
+            copyIdToolStripMenuItem.Name = "copyIdToolStripMenuItem";
+            copyIdToolStripMenuItem.Size = new Size(180, 22);
+            copyIdToolStripMenuItem.Text = "Copy Id";
+            copyIdToolStripMenuItem.Click += copyIdToolStripMenuItem_Click;
             // 
             // mapTreeList
             // 
-            this.mapTreeList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapTreeList.Location = new System.Drawing.Point(0, 25);
-            this.mapTreeList.Name = "mapTreeList";
-            this.mapTreeList.Size = new System.Drawing.Size(189, 182);
-            this.mapTreeList.TabIndex = 5;
+            mapTreeList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            mapTreeList.Location = new System.Drawing.Point(0, 25);
+            mapTreeList.Margin = new Padding(4, 3, 4, 3);
+            mapTreeList.Name = "mapTreeList";
+            mapTreeList.Size = new Size(189, 182);
+            mapTreeList.TabIndex = 5;
             // 
             // FrmMapList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(189, 207);
-            this.CloseButton = false;
-            this.CloseButtonVisible = false;
-            this.Controls.Add(this.mapTreeList);
-            this.Controls.Add(this.toolStrip1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "FrmMapList";
-            this.Text = "Map List";
-            this.Load += new System.EventHandler(this.frmMapList_Load);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(6F, 13F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(189, 207);
+            CloseButton = false;
+            CloseButtonVisible = false;
+            Controls.Add(mapTreeList);
+            Controls.Add(toolStrip1);
+            Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Name = "FrmMapList";
+            Text = "Map List";
+            Load += frmMapList_Load;
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
+            contextMenuStrip1.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 
