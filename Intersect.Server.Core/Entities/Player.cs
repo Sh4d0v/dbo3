@@ -170,6 +170,9 @@ public partial class Player : Entity
     //Quests
     public virtual List<Quest> Quests { get; set; } = [];
 
+    //Achievements
+    public PlayerAchievements Achievements { get; set; } = new PlayerAchievements();
+
     //Variables
     public virtual List<PlayerVariable> Variables { get; set; } = [];
 

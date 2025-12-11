@@ -13,6 +13,8 @@ public partial class MenuGuiBase : IMutableInterface
     private readonly ImagePanel _serverStatusArea;
     private readonly Label _serverStatusLabel;
     private readonly VersionPanel _versionPanel;
+    private readonly ImagePanel _newsWindow;
+    private readonly Label _newsLabel;
 
     public MainMenu MainMenu { get; }
 
@@ -26,6 +28,14 @@ public partial class MenuGuiBase : IMutableInterface
 
         _versionPanel = new VersionPanel(_menuCanvas, name: nameof(_versionPanel));
 
+        _newsWindow = new ImagePanel(_menuCanvas, "MainMenuNews")
+        {
+            IsHidden = ClientContext.IsSinglePlayer,
+        };
+        _newsLabel = new Label(_newsWindow, "NewsLabel")
+        {
+            IsHidden = ClientContext.IsSinglePlayer,
+        };
         _serverStatusArea = new ImagePanel(_menuCanvas, "ServerStatusArea")
         {
             IsHidden = ClientContext.IsSinglePlayer,
@@ -37,6 +47,10 @@ public partial class MenuGuiBase : IMutableInterface
         };
 
         _serverStatusArea.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
+        _newsWindow.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
+        _newsLabel.Text = "...";
+        LoadNewsAsync();
+
         MainMenu.NetworkStatusChanged += HandleNetworkStatusChanged;
     }
 
@@ -49,6 +63,21 @@ public partial class MenuGuiBase : IMutableInterface
     private void HandleNetworkStatusChanged()
     {
         _serverStatusLabel.Text = Strings.Server.StatusLabel.ToString(MainMenu.ActiveNetworkStatus.ToLocalizedString());
+    }
+    private async void LoadNewsAsync()
+    {
+        try
+        {
+            using var client = new HttpClient();
+            string text = await client.GetStringAsync("https://localhost:5443/news.txt");
+            _newsLabel.Text = text;
+        }
+        catch
+        {
+            _newsLabel.Text = "";
+            _newsLabel.Hide();
+            _newsWindow.Hide();
+        }
     }
 
     public void Update(TimeSpan elapsed, TimeSpan total)
