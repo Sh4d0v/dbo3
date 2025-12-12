@@ -4,6 +4,8 @@ using Intersect.Client.Framework.Gwen.Control;
 using Intersect.Client.Interface.Shared;
 using Intersect.Client.Localization;
 using Intersect.Client.Networking;
+using Intersect.Core;
+using Microsoft.Extensions.Logging;
 
 namespace Intersect.Client.Interface.Menu;
 
@@ -49,7 +51,7 @@ public partial class MenuGuiBase : IMutableInterface
         _serverStatusArea.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
         _newsWindow.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
         _newsLabel.Text = "...";
-        LoadNewsAsync();
+        LoadNewsAsync(); // updating news with news.txt
 
         MainMenu.NetworkStatusChanged += HandleNetworkStatusChanged;
     }
@@ -71,9 +73,11 @@ public partial class MenuGuiBase : IMutableInterface
             using var client = new HttpClient();
             string text = await client.GetStringAsync("https://localhost:5443/news.txt");
             _newsLabel.Text = text;
+            ApplicationContext.Context.Value?.Logger.LogInformation($"[NEWS] Pobrano news, treść: {text}");
         }
         catch
         {
+            ApplicationContext.Context.Value?.Logger.LogInformation("[NEWS] News cannot be updated.");
             _newsLabel.Text = "";
             _newsLabel.Hide();
             _newsWindow.Hide();
