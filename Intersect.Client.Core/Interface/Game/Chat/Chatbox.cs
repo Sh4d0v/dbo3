@@ -24,7 +24,6 @@ namespace Intersect.Client.Interface.Game.Chat;
 
 public partial class Chatbox
 {
-
     private ComboBox mChannelCombobox;
 
     private Label mChannelLabel;
@@ -56,13 +55,9 @@ public partial class Chatbox
 
     //Window Controls
     private ImagePanel mChatboxWindow;
-
     private GameInterface mGameUi;
-
     private long mLastChatTime = -1;
-
     private int mMessageIndex;
-
     private bool mReceivedMessage;
 
     /// <summary>
@@ -124,8 +119,10 @@ public partial class Chatbox
             mTabButtons[(ChatboxTab)btn].UserData = (ChatboxTab)btn;
         }
 
-        mChatbar = new ImagePanel(mChatboxWindow, "Chatbar");
-        mChatbar.IsHidden = true;
+        mChatbar = new ImagePanel(mChatboxWindow, "Chatbar")
+        {
+            IsHidden = true
+        };
 
         mChatboxInput = new TextBox(mChatboxWindow, "ChatboxInputField");
         mChatboxInput.SubmitPressed += ChatboxInput_SubmitPressed;
@@ -133,7 +130,6 @@ public partial class Chatbox
         mChatboxInput.Clicked += ChatboxInput_Clicked;
         mChatboxInput.IsTabable = false;
         mChatboxInput.SetMaxLength(Options.Instance.Chat.MaxChatLength);
-
 
         Interface.FocusComponents.Add(mChatboxInput);
 
@@ -192,7 +188,7 @@ public partial class Chatbox
         mContextMenu = new Framework.Gwen.Control.Menu(gameCanvas, "ChatContextMenu");
         mContextMenu.IsHidden = true;
         mContextMenu.IconMarginDisabled = true;
-        //TODO: Is this a memory leak?
+        //TODO: It WAS a memory leak?
         mContextMenu.ClearChildren();
 
         mPMContextItem = mContextMenu.AddItem(Strings.ChatContextMenu.PM);
@@ -210,25 +206,21 @@ public partial class Chatbox
 
     public void OpenContextMenu(string name)
     {
-        // Nie otwieramy menu dla pustych nazw
         if (string.IsNullOrWhiteSpace(name))
             return;
 
-        // ClearChildren usuwa WSZYSTKO poprawnie.
-        // Nie używamy RemoveChild(), because Gwen zaczyna wtedy bugować hierarchię.
         mContextMenu.ClearChildren();
 
-        // Kopia nazway, aby uniknąć błędów closure
         var targetName = name;
 
-        // ===== PM =====
+        // PM
         var pmItem = mContextMenu.AddItem(Strings.ChatContextMenu.PM.ToString(targetName));
         pmItem.Clicked += (sender, args) =>
         {
             SetChatboxText($"/pm {targetName} ");
         };
 
-        // ===== Friend Invite =====
+        // Friend Invite
         bool isFriend = Globals.Me.Friends.Any(f => f.Name == targetName);
 
         if (!isFriend)
@@ -240,7 +232,7 @@ public partial class Chatbox
             };
         }
 
-        // ===== Party Invite =====
+        // Party Invite
         bool inParty = Globals.Me.IsInParty();
         bool isLeader = inParty && Globals.Me.Party[0].Id == Globals.Me.Id;
         bool alreadyInParty = inParty && Globals.Me.Party.Any(p => p.Name == targetName);
@@ -254,7 +246,7 @@ public partial class Chatbox
             };
         }
 
-        // ===== Guild Invite =====
+        // Guild Invite
         bool inGuild = Globals.Me.IsInGuild;
         bool canInvite = inGuild && Globals.Me.GuildRank.Permissions.Invite;
         bool isGuildMember = inGuild && Globals.Me.GuildMembers.Any(g => g.Name == targetName);
@@ -268,10 +260,7 @@ public partial class Chatbox
             };
         }
 
-        // Przechowujemy nazwę w UserData (opcjonalne)
         mContextMenu.UserData = targetName;
-
-        // Dopasuj rozmiar i otwórz
         mContextMenu.SizeToChildren();
         mContextMenu.Open(Framework.Gwen.Pos.None);
     }
@@ -444,7 +433,7 @@ public partial class Chatbox
         {
             if (scrollToBottom)
             {
-                mChatboxMessages.PostLayout.Enqueue(scroller => scroller.ScrollToBottom(), mChatboxMessages);
+                mChatboxMessages.ScrollToBottom();
             }
             else
             {

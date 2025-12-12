@@ -6,6 +6,10 @@ using Intersect.Client.Localization;
 using Intersect.Client.Networking;
 using Intersect.Core;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Net.Security;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Intersect.Client.Interface.Menu;
 
@@ -51,7 +55,7 @@ public partial class MenuGuiBase : IMutableInterface
         _serverStatusArea.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
         _newsWindow.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
         _newsLabel.Text = "...";
-        LoadNewsAsync(); // updating news with news.txt
+        _ = LoadNewsAsync(); // updating news with news.txt
 
         MainMenu.NetworkStatusChanged += HandleNetworkStatusChanged;
     }
@@ -66,21 +70,56 @@ public partial class MenuGuiBase : IMutableInterface
     {
         _serverStatusLabel.Text = Strings.Server.StatusLabel.ToString(MainMenu.ActiveNetworkStatus.ToLocalizedString());
     }
-    private async void LoadNewsAsync()
+    private async Task LoadNewsAsync()
     {
         try
         {
-            using var client = new HttpClient();
-            string text = await client.GetStringAsync("https://localhost:5443/news.txt");
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+                {
+                    try
+                    {
+                        // Corrected access to RequestUri - 'request' is an HttpRequestMessage
+                        if (request?.RequestUri?.IsLoopback == true)
+                        {
+                            return true;
+                        }
+                    }
+                    catch
+                    {
+                        // Do not abort validation when there are issues reading the Uri.
+                    }
+
+                    return errors == SslPolicyErrors.None;
+                }
+            };
+
+            using var client = new HttpClient(handler)
+            {
+                Timeout = TimeSpan.FromSeconds(10)
+            };
+
+            var uri = new Uri("https://localhost:5443/news.txt");
+            string text = await client.GetStringAsync(uri).ConfigureAwait(false);
+
+            // If the UI update must be performed on the main thread, do so appropriately.
             _newsLabel.Text = text;
-            ApplicationContext.Context.Value?.Logger.LogInformation($"[NEWS] Pobrano news, treść: {text}");
+            ApplicationContext.Context.Value?.Logger.LogInformation($"[NEWS] News downloaded: {text}");
         }
-        catch
+        catch (Exception ex)
         {
-            ApplicationContext.Context.Value?.Logger.LogInformation("[NEWS] News cannot be updated");
+            ApplicationContext.Context.Value?.Logger.LogWarning(ex, "[NEWS] News cannot be downloaded");
             _newsLabel.Text = "";
-            _newsLabel.Hide();
-            _newsWindow.Hide();
+            try
+            {
+                _newsLabel.Hide();
+                _newsWindow.Hide();
+            }
+            catch
+            {
+                // ignore
+            }
         }
     }
 
