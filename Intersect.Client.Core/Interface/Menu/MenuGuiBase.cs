@@ -77,7 +77,7 @@ public partial class MenuGuiBase : IMutableInterface
         }
         catch
         {
-            ApplicationContext.Context.Value?.Logger.LogInformation("[NEWS] News cannot be updated.");
+            ApplicationContext.Context.Value?.Logger.LogInformation("[NEWS] News cannot be updated");
             _newsLabel.Text = "";
             _newsLabel.Hide();
             _newsWindow.Hide();
