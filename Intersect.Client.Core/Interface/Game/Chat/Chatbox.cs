@@ -133,6 +133,8 @@ public partial class Chatbox
         mChatboxInput.Clicked += ChatboxInput_Clicked;
         mChatboxInput.IsTabable = false;
         mChatboxInput.SetMaxLength(Options.Instance.Chat.MaxChatLength);
+
+
         Interface.FocusComponents.Add(mChatboxInput);
 
         mChannelLabel = new Label(mChatboxWindow, "ChannelLabel");
@@ -192,6 +194,7 @@ public partial class Chatbox
         mContextMenu.IconMarginDisabled = true;
         //TODO: Is this a memory leak?
         mContextMenu.ClearChildren();
+
         mPMContextItem = mContextMenu.AddItem(Strings.ChatContextMenu.PM);
         mPMContextItem.Clicked += MPMContextItem_Clicked;
         mFriendInviteContextItem = mContextMenu.AddItem(Strings.ChatContextMenu.FriendInvite);
@@ -207,50 +210,72 @@ public partial class Chatbox
 
     public void OpenContextMenu(string name)
     {
-        // Clear out the old options.
-        mContextMenu.RemoveChild(mPMContextItem, false);
-        mContextMenu.RemoveChild(mFriendInviteContextItem, false);
-        mContextMenu.RemoveChild(mPartyInviteContextItem, false);
-        mContextMenu.RemoveChild(mGuildInviteContextItem, false);
+        // Nie otwieramy menu dla pustych nazw
+        if (string.IsNullOrWhiteSpace(name))
+            return;
+
+        // ClearChildren usuwa WSZYSTKO poprawnie.
+        // Nie używamy RemoveChild(), because Gwen zaczyna wtedy bugować hierarchię.
         mContextMenu.ClearChildren();
 
-        // No point showing a menu for blank space.
-        if (string.IsNullOrWhiteSpace(name))
+        // Kopia nazway, aby uniknąć błędów closure
+        var targetName = name;
+
+        // ===== PM =====
+        var pmItem = mContextMenu.AddItem(Strings.ChatContextMenu.PM.ToString(targetName));
+        pmItem.Clicked += (sender, args) =>
         {
-            return;
+            SetChatboxText($"/pm {targetName} ");
+        };
+
+        // ===== Friend Invite =====
+        bool isFriend = Globals.Me.Friends.Any(f => f.Name == targetName);
+
+        if (!isFriend)
+        {
+            var friendItem = mContextMenu.AddItem(Strings.ChatContextMenu.FriendInvite.ToString(targetName));
+            friendItem.Clicked += (sender, args) =>
+            {
+                PacketSender.SendAddFriend(targetName);
+            };
         }
 
-        // Add our PM option!
-        mContextMenu.AddChild(mPMContextItem);
-        mPMContextItem.SetText(Strings.ChatContextMenu.PM.ToString(name));
+        // ===== Party Invite =====
+        bool inParty = Globals.Me.IsInParty();
+        bool isLeader = inParty && Globals.Me.Party[0].Id == Globals.Me.Id;
+        bool alreadyInParty = inParty && Globals.Me.Party.Any(p => p.Name == targetName);
 
-        // If we do not already have this player on our friendlist, add a request button!
-        if (!Globals.Me.Friends.Any(f => f.Name == name))
+        if ((inParty && isLeader && !alreadyInParty) || !inParty)
         {
-            mContextMenu.AddChild(mFriendInviteContextItem);
-            mFriendInviteContextItem.SetText(Strings.ChatContextMenu.FriendInvite.ToString(name));
+            var partyItem = mContextMenu.AddItem(Strings.ChatContextMenu.PartyInvite.ToString(targetName));
+            partyItem.Clicked += (sender, args) =>
+            {
+                PacketSender.SendPartyInvite(targetName);
+            };
         }
 
-        // Are we in a party, the leader and is this player not yet in our party?
-        if ((Globals.Me.IsInParty() && Globals.Me.Party[0].Id == Globals.Me.Id && !Globals.Me.Party.Any(p => p.Name == name)) || !Globals.Me.IsInParty())
+        // ===== Guild Invite =====
+        bool inGuild = Globals.Me.IsInGuild;
+        bool canInvite = inGuild && Globals.Me.GuildRank.Permissions.Invite;
+        bool isGuildMember = inGuild && Globals.Me.GuildMembers.Any(g => g.Name == targetName);
+
+        if (inGuild && canInvite && !isGuildMember)
         {
-            mContextMenu.AddChild(mPartyInviteContextItem);
-            mPartyInviteContextItem.SetText(Strings.ChatContextMenu.PartyInvite.ToString(name));
+            var guildItem = mContextMenu.AddItem(Strings.ChatContextMenu.GuildInvite.ToString(targetName));
+            guildItem.Clicked += (sender, args) =>
+            {
+                PacketSender.SendInviteGuild(targetName);
+            };
         }
 
-        // Are we in a guild, able to invite players and are they not yet in our guild?
-        if (Globals.Me.IsInGuild && Globals.Me.GuildRank.Permissions.Invite && !Globals.Me.GuildMembers.Any(g => g.Name == name))
-        {
-            mContextMenu.AddChild(mGuildInviteContextItem);
-            mGuildInviteContextItem.SetText(Strings.ChatContextMenu.GuildInvite.ToString(name));
-        }
+        // Przechowujemy nazwę w UserData (opcjonalne)
+        mContextMenu.UserData = targetName;
 
-        // Set our spell slot as userdata for future reference.
-        mContextMenu.UserData = name;
-
+        // Dopasuj rozmiar i otwórz
         mContextMenu.SizeToChildren();
         mContextMenu.Open(Framework.Gwen.Pos.None);
     }
+
 
     private void MGuildInviteContextItem_Clicked(Base sender, MouseButtonState arguments)
     {
@@ -329,6 +354,9 @@ public partial class Chatbox
         {
             case ChatboxTab.System:
             case ChatboxTab.All:
+                if (!mLastChatChannel.TryGetValue(tab, out var last))
+                    last = 0;
+
                 mChannelCombobox.SelectByUserData(mLastChatChannel[tab]);
                 break;
 
@@ -414,12 +442,9 @@ public partial class Chatbox
         // ReSharper disable once InvertIf
         if (mReceivedMessage)
         {
-            // mChatboxMessages.SizeToContents();
-
             if (scrollToBottom)
             {
                 mChatboxMessages.PostLayout.Enqueue(scroller => scroller.ScrollToBottom(), mChatboxMessages);
-                mChatboxMessages.RunOnMainThread(mChatboxMessages.ScrollToBottom);
             }
             else
             {
@@ -600,15 +625,12 @@ public partial class Chatbox
         if (string.IsNullOrWhiteSpace(msg) || string.Equals(msg, GetDefaultInputText(), StringComparison.Ordinal))
         {
             mChatboxInput.Text = GetDefaultInputText();
-
             return;
         }
 
-        if (mLastChatTime > Timing.Global.MillisecondsUtc)
+        if (Timing.Global.MillisecondsUtc < mLastChatTime)
         {
             ChatboxMsg.AddMessage(new ChatboxMsg(Strings.Chatbox.TooFast, Color.Red, ChatMessageType.Error));
-            mLastChatTime = Timing.Global.MillisecondsUtc + Options.Instance.Chat.MinIntervalBetweenChats;
-
             return;
         }
 
