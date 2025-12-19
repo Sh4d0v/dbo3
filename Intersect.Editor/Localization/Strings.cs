@@ -807,6 +807,18 @@ public static partial class Strings
 
     }
 
+    public partial struct Plugins
+    {
+        public static LocalizedString title = @"Plugins";
+
+    }
+
+    public partial struct PackageManager
+    {
+        public static LocalizedString title = @"Package Manager";
+
+    }
+
     public partial struct AnimationEditor
     {
 
@@ -5762,6 +5774,14 @@ Negative values for time to flow backwards.";
         public static LocalizedString okay = @"Ok";
 
         public static LocalizedString title = @"Warp Tile Selection";
+
+    }
+
+    public partial struct ErrorWindow
+    {
+        public static LocalizedString okay = @"Ok";
+
+        public static LocalizedString title = @"Intersect Engine - Error!";
 
     }
 

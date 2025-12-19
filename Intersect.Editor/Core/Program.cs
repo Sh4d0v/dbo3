@@ -114,11 +114,14 @@ public static class Program
         CurrentDomain_UnhandledException(null, new UnhandledExceptionEventArgs(e.Exception, true));
     }
 
-    //Really basic error handler for debugging purposes
     public static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
     {
         ApplicationContext.CurrentContext.Logger.LogError(args.ExceptionObject as Exception, "Unhandled exception");
-        MessageBox.Show(Strings.Errors.UnhandledError);
+        var ErrorDESC = (args.ExceptionObject as Exception);
+        var msgErrorBox = new msgError();
+
+        msgErrorBox.ErrorMsgBox.Text += ErrorDESC;
+        msgErrorBox.ShowDialog();
 
         Environment.Exit(1);
     }

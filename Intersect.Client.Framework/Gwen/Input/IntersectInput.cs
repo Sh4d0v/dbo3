@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using Intersect.Client.Framework.GenericClasses;
 using Intersect.Client.Framework.Gwen.Control;
 using Intersect.Client.Framework.Input;
@@ -100,47 +100,65 @@ public partial class IntersectInput : InputBase
 
         var msg = (GwenInputMessage) message;
         Key key;
+
         switch (msg.Type)
         {
             case InputEvent.MouseMove:
-                var dx = (int) (int) msg.MousePosition.X - mMouseX;
-                var dy = (int) (int) msg.MousePosition.Y - mMouseY;
+                {
+                    var newX = (int)msg.MousePosition.X;
+                    var newY = (int)msg.MousePosition.Y;
 
-                mMouseX = (int) (int) msg.MousePosition.X;
-                mMouseY = (int) (int) msg.MousePosition.Y;
+                    var dx = newX - mMouseX;
+                    var dy = newY - mMouseY;
 
-                return mCanvas.Input_MouseMoved(mMouseX, mMouseY, dx, dy);
+                    mMouseX = newX;
+                    mMouseY = newY;
+
+                    return mCanvas.Input_MouseMoved(mMouseX, mMouseY, dx, dy);
+                }
+
             case InputEvent.MouseDown:
                 return mCanvas.Input_MouseButton(msg.MouseBtn, true);
+
             case InputEvent.MouseUp:
                 return mCanvas.Input_MouseButton(msg.MouseBtn, false);
+
             case InputEvent.TextEntered:
-                return mCanvas.Input_Character((char) msg.Unicode[0]);
-            case InputEvent.KeyDown:
-                var ch = TranslateChar(msg.Key);
-                if ((int) msg.MouseBtn < 0 && InputHandler.DoSpecialKeys(mCanvas, ch, msg.Key))
+                if (string.IsNullOrEmpty(msg.Unicode))
                 {
                     return false;
                 }
+                return mCanvas.Input_Character(msg.Unicode[0]);
 
-                key = TranslateKeyCode(msg.Key);
-                if (key == Key.Invalid || key == Key.Space)
+            case InputEvent.KeyDown:
                 {
-                    return InputHandler.HandleAccelerator(mCanvas, ch);
+                    var ch = TranslateChar(msg.Key);
+
+                    if ((int) msg.MouseBtn < 0 && InputHandler.DoSpecialKeys(mCanvas, ch, msg.Key))
+                    {
+                        return false;
+                    }
+                
+                    key = TranslateKeyCode(msg.Key);
+                    if (key == Key.Invalid || key == Key.Space)
+                    {
+                        return InputHandler.HandleAccelerator(mCanvas, ch);
+                    }
+                
+                    return mCanvas.Input_Key(key, true, msg.Shift); //TODO FIX THIS LAST PARAMETER
                 }
 
-                return mCanvas.Input_Key(key, true, msg.Shift); //TODO FIX THIS LAST PARAMETER
             case InputEvent.KeyUp:
                 key = TranslateKeyCode(msg.Key);
-
                 return mCanvas.Input_Key(key, false, msg.Shift); //TODO FIX THIS LAST PARAMETER
+
             case InputEvent.MouseScroll:
                 return mCanvas.Input_MouseScroll((int)msg.MousePosition.X, (int)msg.MousePosition.Y);
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
-
 }
 
 public partial class GwenInputMessage

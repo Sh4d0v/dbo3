@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Text;
 using Intersect.Client.Framework.GenericClasses;
@@ -19,7 +19,7 @@ public static partial class InputHandler
 
     private static readonly KeyData KeyData = new KeyData();
 
-    private static readonly Dictionary<MouseButton, float> LastClickTime = [];
+    private static readonly Dictionary<MouseButton, float> LastClickTime = new();
 
     private static Base? _focusedKeyboard;
     private static Base? _focusedMouse;
@@ -337,7 +337,7 @@ public static partial class InputHandler
 
         if (KeyboardFocus != null && (!KeyboardFocus.IsVisibleInTree || !KeyboardFocus.KeyboardInputEnabled))
         {
-            // KeyboardFocus = null;
+            KeyboardFocus = null;
         }
 
         if (null == KeyboardFocus)
@@ -411,7 +411,7 @@ public static partial class InputHandler
             return false;
         }
 
-        if (!Enum.IsDefined(mouseButton))
+        if (!Enum.IsDefined(typeof(MouseButton), mouseButton))
         {
             return false;
         }
@@ -420,7 +420,7 @@ public static partial class InputHandler
 
         if (KeyData.SetMouseButtonState(mouseButton, pressed))
         {
-            hoveredControl.InputMouseButtonState(MouseButton.Left, mousePosition, pressed);
+            hoveredControl.InputMouseButtonState(mouseButton, mousePosition, pressed);
         }
 
         // Double click.
