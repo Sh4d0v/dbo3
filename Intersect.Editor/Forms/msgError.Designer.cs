@@ -87,7 +87,9 @@ namespace Intersect.Editor.Forms
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "msgError";
-            Text = "msgError";
+            Text = "Intersect Engine - Error!";
+            FormClosing += msgError_Closing;
+            Load += msgError_Load;
             ResumeLayout(false);
         }
 

@@ -122,7 +122,5 @@ public static class Program
 
         msgErrorBox.ErrorMsgBox.Text += ErrorDESC;
         msgErrorBox.ShowDialog();
-
-        Environment.Exit(1);
     }
 }

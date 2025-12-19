@@ -23,7 +23,11 @@ public partial class msgError : Form
     {
         Text = Strings.ErrorWindow.title;
         btnErrorOk.Text = Strings.ErrorWindow.okay;
-        ErrorMsgBox.Text = "";
+        ErrorMsgBox.Text = string.IsNullOrEmpty(ErrorMsgBox.Text) ? "" : ErrorMsgBox.Text;
     }
 
+    private void msgError_Closing(object sender, FormClosingEventArgs e)
+    {
+        Environment.Exit(1);
+    }
 }

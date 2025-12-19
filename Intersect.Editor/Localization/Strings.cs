@@ -5774,15 +5774,12 @@ Negative values for time to flow backwards.";
         public static LocalizedString okay = @"Ok";
 
         public static LocalizedString title = @"Warp Tile Selection";
-
     }
 
     public partial struct ErrorWindow
     {
-        public static LocalizedString okay = @"Ok";
-
         public static LocalizedString title = @"Intersect Engine - Error!";
-
+        public static LocalizedString okay = @"Confirm and exit";
     }
 
     public partial struct VariableSelector
