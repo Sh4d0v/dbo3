@@ -11,6 +11,8 @@ public partial class BanMuteBox : WindowControl
     private readonly ComboBox _comboboxDuration;
     private readonly LabeledCheckBox _checkboxIP;
 
+    private bool _isClosing;
+
     private readonly Dictionary<string, int> _dayCount = new()
     {
         {
@@ -47,7 +49,7 @@ public partial class BanMuteBox : WindowControl
             Strings.BanMute.OneYear, 365
         },
         {
-            Strings.BanMute.Forever, 999999
+            Strings.BanMute.Forever, int.MaxValue
         },
     };
 
@@ -100,46 +102,67 @@ public partial class BanMuteBox : WindowControl
         {
             Text = Strings.BanMute.Okay,
         };
+
         buttonOkay.Clicked += (s, e) =>
         {
+            if (_isClosing)
+            {
+                return;
+            }
+
             okayHandler?.Invoke(this, EventArgs.Empty);
-            Dispose();
+            CloseSafe();
         };
 
         var buttonCancel = new Button(this, "ButtonCancel")
         {
             Text = Strings.BanMute.Cancel,
         };
-        buttonCancel.Clicked += (s, e) => Dispose();
+
+        buttonCancel.Clicked += (s, e) => CloseSafe();
 
         LoadJsonUi(UI.InGame, Graphics.Renderer?.GetResolutionString(), true);
 
         richLabelPrompt.ClearText();
         richLabelPrompt.Width = promptContainer.Width - promptContainer.VerticalScrollBar.Width;
         richLabelPrompt.AddText(prompt, labelPrompt);
-        _ = richLabelPrompt.SizeToChildren(false, true);
+        richLabelPrompt.SizeToChildren(false, true);
+        _textboxReason.Focus();
     }
+    private void CloseSafe()
+    {
+        if (_isClosing)
+        {
+            return;
+        }
 
+        _isClosing = true;
+        Dispose();
+    }
     protected override void Dispose(bool disposing)
     {
-        Close();
-        Interface.GameUi.GameCanvas.RemoveChild(this, false);
+        Interface.InputBlockingComponents.Remove(this);
+
+        if (_textboxReason != null)
+        {
+            Interface.FocusComponents.Remove(_textboxReason);
+        }
 
         base.Dispose(disposing);
     }
 
     public int GetDuration()
     {
-        return (int)_comboboxDuration.SelectedItem.UserData;
+        return _comboboxDuration.SelectedItem?.UserData as int? ?? 1;
     }
 
     public string GetReason()
     {
-        return _textboxReason.Text;
+        return _textboxReason?.Text ?? string.Empty;
     }
 
     public bool BanIp()
     {
-        return _checkboxIP.IsChecked;
+        return _checkboxIP?.IsChecked ?? false;
     }
 }
