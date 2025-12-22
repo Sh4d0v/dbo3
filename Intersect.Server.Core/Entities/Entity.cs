@@ -2080,6 +2080,7 @@ public abstract partial class Entity : IEntity
         //Let's save the entity's vitals before they takes damage to use in lifesteal/manasteal
         var enemyVitals = enemy.GetVitals();
         var invulnerable = enemy.CachedStatuses.Any(status => status.Type == SpellEffect.Invulnerable);
+        long appliedHealthDamage = 0;
 
         bool isCrit = false;
         //Is this a critical hit?
@@ -2301,7 +2302,7 @@ public abstract partial class Entity : IEntity
                 enemy.SubVital(Vital.Health, (int)remainingManaRecovery);
                 PacketSender.SendActionMsg(
                     enemy,
-                    Strings.Combat.RemoveSymbol + remainingManaRecovery,
+                    Strings.Combat.RemoveSymbol + (int)remainingManaRecovery,
                     CustomColors.Combat.TrueDamage
                 );
             }

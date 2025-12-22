@@ -174,12 +174,14 @@ public partial class Resource : Entity
                     var mapId = selectedTile.GetMapId();
                     if (MapController.TryGetInstanceFromMap(mapId, MapInstanceId, out var mapInstance))
                     {
+                        var quantity = item.Quantity;
+                      
                         mapInstance.SpawnItem(
                             itemSource,
                             selectedTile.GetX(),
                             selectedTile.GetY(),
                             item,
-                            item.Quantity,
+                            quantity,
                             killer.Id
                         );
                     }

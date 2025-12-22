@@ -714,6 +714,9 @@ public static partial class Strings
         public readonly LocalizedString InviteAlreadyInGuild = @"The player you're trying to invite is already in a guild or has a pending invite.";
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString InviteDifferentFaction = @"You cannot invite players from a different faction.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public readonly LocalizedString InviteDeclined = @"You have declined the request to join {00}.";
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -1123,6 +1126,30 @@ public static partial class Strings
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public readonly LocalizedString PlayerNotFound = @"The player '{00}' was not found!";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString InvalidItem = @"Invalid item selected.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString InvalidQuantity = @"Quantity must be greater than zero.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString ItemGiveFailed = @"Unable to give {00}x {01} to {02}.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString ItemGiveSuccess = @"You have given {00}x {01} to {02}.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString ItemReceivedFromAdmin = @"{00} gave you {01}x {02}.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString ItemSpawnFailed = @"Unable to spawn {00}x {01} for {02}.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString ItemSpawnSuccess = @"You spawned {00}x {01} for {02}.";
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public readonly LocalizedString ItemSpawnedNearYou = @"{00} spawned {01}x {02} near you.";
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public readonly LocalizedString PowerChanged = @"Your power has been modified!";

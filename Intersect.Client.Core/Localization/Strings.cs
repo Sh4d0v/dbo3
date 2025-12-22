@@ -956,6 +956,12 @@ public static partial class Strings
         public static LocalizedString Title = @"Credits";
 
     }
+    public partial struct News
+    {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public static LocalizedString Title = @"News";
+
+    }
 
     public partial struct Debug
     {

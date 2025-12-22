@@ -1,15 +1,18 @@
+using System;
+using System.Net.Http;
+using System.Net.Security;
+using System.Threading.Tasks;
 using Intersect.Client.Core;
 using Intersect.Client.Framework.File_Management;
+using Intersect.Client.Framework.Gwen;
 using Intersect.Client.Framework.Gwen.Control;
 using Intersect.Client.Interface.Shared;
 using Intersect.Client.Localization;
 using Intersect.Client.Networking;
+using Intersect.Configuration;
 using Intersect.Core;
+using Intersect.Network;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Net.Security;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Intersect.Client.Interface.Menu;
 
@@ -53,19 +56,21 @@ public partial class MenuGuiBase : IMutableInterface
         };
 
         _serverStatusArea.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
+
         _newsWindow.LoadJsonUi(GameContentManager.UI.Menu, Graphics.Renderer?.GetResolutionString());
+        _newsLabel.WrappingBehavior = WrappingBehavior.Wrapped;
+        _newsLabel.AutoSizeToContents = false;
+
         _newsLabel.Text = "...";
         _ = LoadNewsAsync(); // updating news with news.txt
 
         MainMenu.NetworkStatusChanged += HandleNetworkStatusChanged;
     }
-
     ~MenuGuiBase()
     {
         // ReSharper disable once DelegateSubtraction
         MainMenu.NetworkStatusChanged -= HandleNetworkStatusChanged;
     }
-
     private void HandleNetworkStatusChanged()
     {
         _serverStatusLabel.Text = Strings.Server.StatusLabel.ToString(MainMenu.ActiveNetworkStatus.ToLocalizedString());
@@ -100,16 +105,15 @@ public partial class MenuGuiBase : IMutableInterface
                 Timeout = TimeSpan.FromSeconds(10)
             };
 
-            var uri = new Uri("https://localhost:5443/news.txt");
+            var news_server = ClientConfiguration.Instance.Host;
+            var uri = new Uri($"https://{news_server}:5443/news.txt");
             string text = await client.GetStringAsync(uri).ConfigureAwait(false);
 
             // If the UI update must be performed on the main thread, do so appropriately.
             _newsLabel.Text = text;
-            ApplicationContext.Context.Value?.Logger.LogInformation($"[NEWS] News downloaded: {text}");
         }
         catch (Exception ex)
         {
-            ApplicationContext.Context.Value?.Logger.LogWarning(ex, "[NEWS] News cannot be downloaded");
             _newsLabel.Text = "";
             try
             {
