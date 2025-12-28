@@ -8,7 +8,7 @@ namespace Intersect.Client.Interface.Game.Admin;
 public partial class BanMuteBox : WindowControl
 {
     private readonly TextBox _textboxReason;
-    private readonly ComboBox? _comboboxDuration;
+    private readonly ComboBox _comboboxDuration;
     private readonly LabeledCheckBox _checkboxIP;
 
     private static readonly List<(string Label, int Days)> _durationOptions = new()
@@ -24,7 +24,7 @@ public partial class BanMuteBox : WindowControl
         (Strings.BanMute.TwoMonths, 60),
         (Strings.BanMute.SixMonths, 180),
         (Strings.BanMute.OneYear, 365),
-        (Strings.BanMute.Forever, int.MaxValue),
+        (Strings.BanMute.Forever, 999999),
     };
 
     public BanMuteBox(string title, string prompt, EventHandler okayHandler) : base(
@@ -79,14 +79,14 @@ public partial class BanMuteBox : WindowControl
         buttonOkay.Clicked += (s, e) =>
         {
             okayHandler?.Invoke(this, EventArgs.Empty);
-            Close();
+            DelayedDelete();
         };
 
         var buttonCancel = new Button(this, "ButtonCancel")
         {
             Text = Strings.BanMute.Cancel,
         };
-        buttonCancel.Clicked += (s, e) => Close();
+        buttonCancel.Clicked += (s, e) => DelayedDelete();
 
         LoadJsonUi(UI.InGame, Graphics.Renderer?.GetResolutionString(), true);
 
